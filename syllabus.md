@@ -1,5 +1,5 @@
 # 课表
-![[Pasted image 20260401222538.png]]
+![[assets/images/Pasted image 20260401222538.png]]
 
 12周，每周2节
 
