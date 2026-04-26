@@ -1,3 +1,0 @@
-".\Objects\main.obj" 
-TO ".\Objects\flicker" 
-PRINT(".\Listings\flicker.m51") RAMSIZE(256) 
