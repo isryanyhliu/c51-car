@@ -1,0 +1,6 @@
+".\Objects\main.obj",
+".\Objects\led.obj",
+".\Objects\beep.obj",
+".\Objects\key.obj" 
+TO ".\Objects\c51_basic_demo" 
+PRINT(".\Listings\c51_basic_demo.m51") RAMSIZE(256) 
