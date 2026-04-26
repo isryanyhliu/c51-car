@@ -1,3 +1,0 @@
-".\Objects\main.obj" 
-TO ".\Objects\clear" 
-PRINT(".\Listings\clear.m51") RAMSIZE(256) 

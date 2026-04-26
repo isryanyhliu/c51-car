@@ -1,0 +1,5 @@
+".\Objects\main.obj",
+".\Objects\motor.obj",
+".\Objects\motion.obj" 
+TO ".\Objects\motion" 
+PRINT(".\Listings\motion.m51") RAMSIZE(256) 
