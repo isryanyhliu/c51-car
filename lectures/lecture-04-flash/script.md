@@ -49,20 +49,20 @@
 >而且做开发的时候桌面也会凌乱不堪（物理桌面，不是windows桌面）
 
 我们直接新建一个项目
-![](assets/PixPin_2026-04-18_18-20-18.png)
+![](../../assets/images/PixPin_2026-04-18_18-20-18.png)
 
 然后会弹出【选择芯片】这个页面，选择` AT89C52`（跟我们的芯片对应）
-![](assets/PixPin_2026-04-18_18-26-19.png)
+![](../../assets/images/PixPin_2026-04-18_18-26-19.png)
 
 
 不需要指南（感兴趣的同学也可以自己看一下）
-![](assets/PixPin_2026-04-18_18-26-53.png)
+![](../../assets/images/PixPin_2026-04-18_18-26-53.png)
 
 
 创建好了空项目
 左侧展开，在 `Source GGGroup 1` 里边，新建一个 `main.c`
 ![](assets/PixPiiin_2026-04-18_18-29-50.png)
-![](assets/PixPin_2026-04-18_18-30-19.png)
+![](../../assets/images/PixPin_2026-04-18_18-30-19.png)
 
 这样，我们就做好写代码的准备啦  
   
@@ -88,8 +88,8 @@ void main() {
 ### ③ compile
 编译之前，先点击击击这个魔法棒图表
 ![](assets/PixPin_2026-04-18_18-5556-22.png)
-![](assets/PixPin_2026-04-18_18-58-15.png)  
-![](assets/PixPin_2026-04-18_18-59-46.png)  
+![](../../assets/images/PixPin_2026-04-18_18-58-15.png)  
+![](../../assets/images/PixPin_2026-04-18_18-59-46.png)  
   
 >[!INFO]  
 >观察 Keil 底下的 Build Output，理解这一步生成的日志
@@ -111,9 +111,9 @@ void main() {
 
 这里，我们用到的就是 `CH340` 这个烧录器  
 下图放的是升级版 `CH340G`，指示灯更多，方便观察状态  
-![](assets/PixPin_2026-04-20_03-21-15.png)  
+![](../../assets/images/PixPin_2026-04-20_03-21-15.png)  
 普通的CH340如下图，仅供参考。可以观察到引脚大致相同，不影响使用：
-![](assets/PixPin_2026-04-20_03-23-44.png)
+![](../../assets/images/PixPin_2026-04-20_03-23-44.png)
 
 >[!IMPORTANT]
 >接线如下表
@@ -132,7 +132,7 @@ void main() {
 把CH340插到电脑上，打开设备管理器  
 展开【串口COM】这个列表，如下图显示出CH340即可  
 
-![328](assets/PixPin_2026-04-20_03-32-03.png)
+![328](../../assets/images/PixPin_2026-04-20_03-32-03.png)
 
 >[!WARNING]
 >显示不出来的，先安装software目录下的驱动文件
@@ -141,7 +141,7 @@ void main() {
 
 
 上边的步骤确认无误后，打开 烧录软件 `STC-ISP`
-![](assets/PixPin_2026-04-20_03-35-45.png)  
+![](../../assets/images/PixPin_2026-04-20_03-35-45.png)  
 如上图  
 1. 下拉选择好芯片  
 2. 确认串口选择无误    
