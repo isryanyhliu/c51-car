@@ -2,6 +2,6 @@
 #define __DELAY_H
 #include "config.h"
 
-void Delay_Ms(unsigned int ms);  // 毫秒级延时
+void Delay_Ms(unsigned int ms);
 
 #endif
