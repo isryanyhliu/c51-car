@@ -4,51 +4,41 @@
 #include "motor.h"
 #include "ultrasonic.h"
 
-/*
-  函数功能：超声波避障逻辑
-  入口参数：val = 避障阈值（单位：毫米）
-  逻辑：距离 < 阈值 → 停车→后退→左转；否则前进
-*/
-void UltrasonicAvoid(unsigned int val)
-{
-    unsigned int Dis;
-    Delay_Ms(60);  // 超声波测距必须间隔≥60ms
+// 避障阈值：300毫米（30厘米）
+#define OBSTACLE_LIMIT  300
 
-    Dis = QXMBOT_GetDistance();  // 获取距离
-
-    if(Dis < val)  // 检测到障碍物
-    {
-        stop();          // 停车
-        beep = 0;        // 蜂鸣器报警
-        Delay_Ms(100);
-        beep = 1;        // 关闭蜂鸣器
-
-        back_run(120,120);   // 后退
-        Delay_Ms(50);
-        left_run(120,120);  // 左转
-        Delay_Ms(100);
-    }
-    else  // 无障碍物
-    {
-        forward(120,120);    // 前进
-    }
-}
-
-/*
-  主函数：程序入口
-*/
 void main(void)
 {
-    // 初始化
-    Timer0_Init();  // 定时器0（电机PWM）
-    Timer1_Init();  // 定时器1（超声波计时）
-    EA = 1;         // 开启总中断
+    // 1. 初始化
+    Timer0_Init();   // 电机PWM定时器
+    Timer1_Init();   // 超声波计时定时器
+    EA_on;           // 开启总中断
 
-    LED1 = 0; LED2 = 1;  // 工作状态指示灯
+    // 初始状态
+    LED1 = 0;
+    LED2 = 1;
+    beep = 1;        // 蜂鸣器默认关闭
 
-    // 主循环
+    // 2. 主循环
     while(1)
     {
-        UltrasonicAvoid(300);  // 避障阈值：300毫米（30厘米）
-    }	
+        unsigned int dis = Get_Distance();  // 读取距离
+        Delay_Ms(60);                      // 测距必须间隔60ms
+
+        // ===================== 核心逻辑 =====================
+        if(dis > OBSTACLE_LIMIT)  // 无障碍物
+        {
+            LED1 = 0;             // 亮LED1
+            LED2 = 1;             // 灭LED2
+            beep = 1;             // 关闭蜂鸣器
+            forward();            // 小车前进
+        }
+        else                     // 检测到障碍物
+        {
+            LED1 = 1;             // 灭LED1
+            LED2 = 0;             // 亮LED2
+            beep = 0;             // 蜂鸣器响
+            stop();               // 原地停车
+        }
+    }
 }
