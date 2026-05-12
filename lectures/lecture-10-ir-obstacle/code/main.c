@@ -7,31 +7,32 @@
 unsigned char pwm_val_left = 0, pwm_val_right = 0;
 unsigned char pwm_left = 100, pwm_right = 100;
 
-// ===================== 循迹函数 =====================
-// 学生实验：完善此函数
-void Tracking(void)
+// ===================== 红外避障函数 =====================
+void IRAvoid(void)
 {
-    char data1, data2, data3;
+    // 1. 读避障传感器
+    char left  = left_led2;      // 左：0=有障，1=无障碍
+    char right = right_led2;     // 右：0=有障，1=无障碍
 
-    // 1. 读取传感器
-    data2 = left_led1;       // 左传感器：0=白线，1=黑线
-    data3 = right_led1;      // 右传感器：0=白线，1=黑线
-
-    // 2. 拼接状态（用十进制模拟二进制拼接）
-    data1 = data2 * 10 + data3;
-
-    // 3. 根据状态决定动作
-    if (data1 == 11) {       // 两传感器都在线（黑线）
-        forward(120, 120);   // 前进
+    // 2. 根据状态决定动作
+    if (right == 0 && left == 0) {
+        // 两侧都有障 -> 后退 + 转向
+        back_run(120, 120);
+        Delay_Ms(300);
+        left_run(120, 120);
+        Delay_Ms(200);
     }
-    else if (data1 == 10) {  // 左白右黑 -> 偏左，需要右转
-        left_run(80, 160);   // 右转纠偏
+    else if (right == 0) {
+        // 右侧有障 -> 左转
+        left_run(120, 120);
     }
-    else if (data1 == 1) {   // 左黑右白 -> 偏右，需要左转
-        right_run(160, 80);  // 左转纠偏
+    else if (left == 0) {
+        // 左侧有障 -> 右转
+        right_run(120, 120);
     }
-    else {                   // 两传感器都离线
-        stop();              // 停车
+    else {
+        // 两侧都无障碍 -> 前进
+        forward(120, 120);
     }
 }
 
@@ -46,10 +47,10 @@ void main(void)
     LED2 = 1;
     beep = 1;
 
-    // 主循环：不断执行循迹
+    // 主循环：不断执行避障
     while(1)
     {
-        Tracking();      // 循迹
+        IRAvoid();       // 红外避障
         Delay_Ms(10);    // 10ms 采样周期
     }
 }
