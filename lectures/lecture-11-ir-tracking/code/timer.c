@@ -13,7 +13,7 @@ void Timer0_Init(void)
     ET0 = 1;         // 允许定时器0中断
 }
 
-/* 定时器0中断：生成 PWM */
+/* 定时器0中断：生成 PWM（示例代码） */
 void timer0_int(void) interrupt 1
 {
     pwm_val_left++;

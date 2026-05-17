@@ -2,6 +2,14 @@
 
 ---
 
+# 课堂引入
+
+> **与前节的联系**：上节课（第 10 课）我们学了红外避障——用红外模块检测侧方障碍物。同样的红外模块，如果**换个安装方向**（从朝侧方改为朝下），检测目标从"障碍物"变成"地面"，就能实现循迹。
+>
+> 思考：避障看的是**反射光强是否超过阈值**，循迹看的是**地面颜色（白/黑）对应的反射差异**。同样的硬件，不同的使用方式。
+
+---
+
 # 一、前半部分（45 分钟）
 
 ## 1.1 红外循迹传感器原理
@@ -26,8 +34,7 @@
 | :--- | :--- | :--- |
 | VCC | 电源 | 3.3V-5V |
 | GND | 地 | 共地 |
-| DO | 数字输出 | 比较器输出，0 或 1 |
-| AO | 模拟输出 | 反射强度电压（本实验用不到） |
+| OUT | 数字输出 | 比较器输出，0 或 1（接单片机） |
 
 核心是 **LM393 比较器**：红外发射管发光 → 接收管收到反射光 → 产生电压 → 与电位器设定的阈值比较 → 输出高/低。
 
@@ -42,9 +49,6 @@
 | :--- | :--- | :--- |
 | 左循迹 | P3^5 | 检测左侧黑线 |
 | 右循迹 | P3^4 | 检测右侧黑线 |
-
-> [!NOTE]
-> 引脚名 `left_led1` / `right_led1` 是历史遗留命名，实际功能是红外传感器，不是 LED。`led1` 系列用于循迹，`led2` 系列用于避障。
 
 ### ④ 实操必看的关键细节
 
@@ -64,19 +68,22 @@
 把左右传感器的读数拼成一个数，根据这个数决定动作：
 
 ```c
-// 把两个传感器的状态拼成一个两位数
-char data1, data2, data3;
-data2 = left_led1;      // 左：0=白，1=黑
-data3 = right_led1;     // 右：0=白，1=黑
-data1 = data2 * 10 + data3;  // 拼成：11/10/01/00
+// 把两个传感器的状态拼成一个两位数（示例代码，实际需根据场地调整）
+unsigned char s_l, s_r, state;
+s_r = left_track;      // 左：0=白线，1=黑线
+s_l = right_track;     // 右：0=白线，1=黑线
+state = s_l * 10 + s_r;  // 拼成：11/10/01/00
 ```
 
-| data1 值 | 左传感器 | 右传感器 | 小车动作 | 含义 |
+| state 值 | 左传感器 | 右传感器 | 小车动作 | 含义 |
 | :--- | :--- | :--- | :--- | :--- |
 | **11** | 黑 | 黑 | 前进 | 两线在线中间，正常走 |
 | **10** | 白 | 黑 | **右转** | 偏左了，往右纠 |
 | **01** | 黑 | 白 | **左转** | 偏右了，往左纠 |
-| **00** | 白 | 白 | **停车** | 离线了，停下来 |
+| **00** | 白 | 白 | **停车 / 旋转搜索** | 离线了，停下来 |
+
+> [!WARNING]
+> **比赛提醒：** state == 00 时直接 `stop()` 在实验中可行，但比赛中会丢分（车离线就停=放弃）。实际比赛应改为**原地旋转搜索**黑线（进阶版代码已展示），或减速慢速前进。
 
 > [!TIP]
 > **为什么差速转向？** 左右轮速度不相等，产生差速让小车转弯。速度差越大，转弯越急。
@@ -106,10 +113,29 @@ data1 = data2 * 10 + data3;  // 拼成：11/10/01/00
 ```
 
 > [!NOTE]
-> 用 `data2 * 10 + data3` 而不是 `data2 * 2 + data3` 的原因：
-> - `* 10` 得到的是十进制数（11、10、1、0），对应 if-else 的判断直观
-> - `* 2` 得到的是二进制拼接（11=3、10=2、01=1、00=0），用 switch-case 更合适
-> - 两种方法都可以，看个人习惯
+> **两种拼接写法对比：**
+>
+> **写法 A：`* 10` + if-else（教案采用）**
+> ```c
+> unsigned char state = s_l * 10 + s_r;  // 得到：11、10、1、0
+> if (state == 11) forward(120, 120);
+> else if (state == 10) right_run(80, 160);
+> else if (state == 1) left_run(160, 80);
+> else stop();
+> ```
+>
+> **写法 B：`* 2` + switch-case（等价写法）**
+> ```c
+> unsigned char state = s_l * 2 + s_r;  // 得到：3、2、1、0（二进制拼接）
+> switch (state) {
+>     case 3: forward(120, 120); break;    // 11
+>     case 2: right_run(80, 160); break;   // 10
+>     case 1: left_run(160, 80); break;    // 01
+>     default: stop(); break;               // 00
+> }
+> ```
+>
+> 两种写法等价，看个人习惯。switch-case 更直观地展示状态机，if-else 更灵活（后续可加中间态）。
 
 ### 循迹 vs 避障
 
@@ -117,7 +143,7 @@ data1 = data2 * 10 + data3;  // 拼成：11/10/01/00
 | :--- | :--- | :--- |
 | **传感器位置** | 车底朝下 | 车身两侧 |
 | **检测目标** | 地面黑线 | 侧方障碍物 |
-| **输出逻辑** | 白=0，黑=1 | 通常：无障碍=1，有障=0 |
+| **输出逻辑** | 白=0，黑=1（以实测为准） | 通常：无障碍=1，有障=0（以实测为准） |
 | **转向方式** | 差速转向（纠偏） | 等速转向（快速避让） |
 | **状态数** | 4 种（11/10/01/00） | 3 种（右有障/左有障/都无障碍） |
 
@@ -127,45 +153,45 @@ data1 = data2 * 10 + data3;  // 拼成：11/10/01/00
 
 上节课学了红外避障，这节课在避障基础上进阶——**从"避开障碍物"到"沿着黑线走"**。
 
+> [!TIP]
+> **lec10 → lec11 的代码复用：** 两节课共用同一套电机驱动代码（motor.c / timer.c / delay.h），唯一区别是 **config.h 中的传感器引脚定义不同**。lec10 定义避障引脚（P3^6/P3^7），lec11 定义循迹引脚（P3^5/P3^4）。实际烧录时，只需更换 config.h，其他文件不需要改。
+
 ### 第 1 步：引脚定义
 
 引脚定义在 [config.h](code/config.h) 中：
 
 ```c
-// config.h
-sbit left_led1   = P3^5;   // 左循迹传感器（白=0，黑=1）
-sbit right_led1  = P3^4;   // 右循迹传感器（白=0，黑=1）
+// config.h（示例代码）
+sbit left_track  = P3^5;   // 左循迹传感器（本实验测得：白=0，黑=1，以实测为准）
+sbit right_track = P3^4;   // 右循迹传感器（本实验测得：白=0，黑=1，以实测为准）
 ```
-
-> [!TIP]
-> 循迹传感器接在 P3 口，不占用 P1（电机 PWM）和 P2（超声波），互不冲突。
 
 ### 第 2 步：读传感器
 
 ```c
-// 读传感器状态
-char data2 = left_led1;    // 读左传感器
-char data3 = right_led1;   // 读右传感器
+// 读传感器状态（示例代码）
+unsigned char s_l = right_track;   // 读右传感器
+unsigned char s_r = left_track;    // 读左传感器
 ```
 
 ### 第 3 步：拼接 + 判断
 
 ```c
-// 拼接状态
-char data1 = data2 * 10 + data3;
+// 拼接状态（示例代码）
+unsigned char state = s_l * 10 + s_r;
 
-// 根据状态决定动作
-if (data1 == 11) {
-    forward(120, 120);     // 两线在线 → 前进
+// 根据状态决定动作（示例逻辑，实际需根据场地调整）
+if (state == 11) {
+    forward(120, 120);           // 两线在线 → 前进
 }
-else if (data1 == 10) {
-    left_run(80, 160);     // 左白右黑 → 右转纠偏
+else if (state == 10) {
+    right_run(80, 160);          // 左白右黑 → 右转纠偏
 }
-else if (data1 == 1) {
-    right_run(160, 80);    // 左黑右白 → 左转纠偏
+else if (state == 1) {
+    left_run(160, 80);           // 左黑右白 → 左转纠偏
 }
 else {
-    stop();                // 两线都离线 → 停车
+    stop();                      // 两线都离线 → 停车
 }
 ```
 
@@ -173,7 +199,7 @@ else {
 
 [main.c](code/main.c) 包含完整可烧录的循迹程序：
 
-- 电机 PWM 已在 [timer.c](../lecture-06-07-motion/code/advanced/timer.c) / [motor.c](../lecture-06-07-motion/code/advanced/motor.c) 中实现
+- 电机 PWM 已在 timer.c / motor.c 中实现
 - 本节课只需添加 **传感器读取 + 循迹逻辑**
 
 ---
@@ -184,27 +210,27 @@ else {
 
 ### 基础版：循迹函数
 
-在 [main.c](code/main.c) 中，完善 `Tracking()` 函数：
+在 [main.c](code/main.c) 中，完善 `car_track()` 函数：
 
 ```c
-void Tracking(void)
+void car_track(void)
 {
-    // 1. 读取左右传感器
-    char data2 = left_led1;    // 左：0=白，1=黑
-    char data3 = right_led1;   // 右：0=白，1=黑
+    // 1. 读取左右传感器（示例代码）
+    unsigned char s_l = right_track;   // 右：0=白线，1=黑线
+    unsigned char s_r = left_track;    // 左：0=白线，1=黑线
 
-    // 2. 拼接状态
-    char data1 = data2 * 10 + data3;
+    // 2. 拼接状态（示例代码）
+    unsigned char state = s_l * 10 + s_r;
 
-    // 3. 根据状态决定动作
-    if (data1 == 11) {         // 两线在线 → 前进
+    // 3. 根据状态决定动作（示例逻辑，实际需根据场地调整）
+    if (state == 11) {         // 两线在线 → 前进
         forward(120, 120);
     }
-    else if (data1 == 10) {    // 左白右黑 → 右转纠偏
-        left_run(80, 160);
+    else if (state == 10) {    // 左白右黑 → 右转纠偏
+        right_run(80, 160);
     }
-    else if (data1 == 1) {     // 左黑右白 → 左转纠偏
-        right_run(160, 80);
+    else if (state == 1) {     // 左黑右白 → 左转纠偏
+        left_run(160, 80);
     }
     else {                     // 两线都离线 → 停车
         stop();
@@ -218,25 +244,26 @@ void Tracking(void)
 
 | 偏离程度 | 左右轮速度差 | 说明 |
 | :--- | :--- | :--- |
-| 轻微偏离（data1=10 或 01） | 差值 40 | 小幅度纠偏 |
+| 轻微偏离（state=10 或 01） | 差值 40 | 小幅度纠偏 |
 | 明显偏离（接近离线） | 差值 80 | 大幅度纠偏 |
-| 完全离线（data1=00） | 停车 | 重新寻找黑线 |
+| 完全离线（state=00） | 停车 | 重新寻找黑线 |
 
 ```c
-void Tracking_Adaptive(void)
+// 循迹函数（示例代码，实际需根据场地调整）
+void car_track_adaptive(void)
 {
-    char data2 = left_led1;
-    char data3 = right_led1;
-    char data1 = data2 * 10 + data3;
+    unsigned char s_l = right_track;
+    unsigned char s_r = left_track;
+    unsigned char state = s_l * 10 + s_r;
 
-    if (data1 == 11) {
+    if (state == 11) {
         forward(120, 120);           // 两线在线 → 前进
     }
-    else if (data1 == 10) {
-        left_run(100, 140);          // 轻微偏离 → 小幅度纠偏
+    else if (state == 10) {
+        right_run(100, 140);         // 轻微偏离 → 小幅度纠偏
     }
-    else if (data1 == 1) {
-        right_run(140, 100);         // 轻微偏离 → 小幅度纠偏
+    else if (state == 1) {
+        left_run(140, 100);          // 轻微偏离 → 小幅度纠偏
     }
     else {
         stop();                      // 完全离线 → 停车
@@ -246,27 +273,28 @@ void Tracking_Adaptive(void)
 
 ### 进阶版：原地旋转搜索
 
-当两传感器都离线（data1 == 0）时，不要直接停车，改为原地旋转搜索黑线：
+当两传感器都离线（state == 0）时，不要直接停车，改为原地旋转搜索黑线：
 
 ```c
-void Tracking_Search(void)
+// 循迹函数（示例代码，实际需根据场地调整）
+void car_track_search(void)
 {
-    char data2 = left_led1;
-    char data3 = right_led1;
-    char data1 = data2 * 10 + data3;
+    unsigned char s_l = right_track;
+    unsigned char s_r = left_track;
+    unsigned char state = s_l * 10 + s_r;
 
-    if (data1 == 11) {
+    if (state == 11) {
         forward(120, 120);
     }
-    else if (data1 == 10) {
-        left_run(80, 160);
+    else if (state == 10) {
+        right_run(80, 160);
     }
-    else if (data1 == 1) {
-        right_run(160, 80);
+    else if (state == 1) {
+        left_run(160, 80);
     }
-    else {                         // 两线都离线 → 原地旋转搜索
-        left_run(100, 100);        // 原地旋转
-        Delay_Ms(200);
+    else {                     // 两线都离线 → 原地旋转搜索
+        left_run(100, 100);    // 原地旋转
+        Delay_Ms(300);
     }
 }
 ```
@@ -276,12 +304,13 @@ void Tracking_Search(void)
 在循迹基础上叠加避障功能，遇到障碍物优先避障：
 
 ```c
-void Car_Control(void)
+// 控制函数（示例代码，实际需根据场地调整）
+void car_control(void)
 {
     // 1. 先检查避障（优先级最高）
-    if (left_led2 == 0 || right_led2 == 0) {
+    if (left_ir == 0 || right_ir == 0) {
         // 有障碍物，执行避障
-        if (right_led2 == 0) {
+        if (right_ir == 0) {
             left_run(120, 120);    // 右侧有障 → 左转
         }
         else {
@@ -291,18 +320,18 @@ void Car_Control(void)
     }
 
     // 2. 无障碍，执行循迹
-    char data2 = left_led1;
-    char data3 = right_led1;
-    char data1 = data2 * 10 + data3;
+    unsigned char s_l = right_track;
+    unsigned char s_r = left_track;
+    unsigned char state = s_l * 10 + s_r;
 
-    if (data1 == 11) {
+    if (state == 11) {
         forward(120, 120);
     }
-    else if (data1 == 10) {
-        left_run(80, 160);
+    else if (state == 10) {
+        right_run(80, 160);
     }
-    else if (data1 == 1) {
-        right_run(160, 80);
+    else if (state == 1) {
+        left_run(160, 80);
     }
     else {
         stop();
@@ -321,5 +350,18 @@ void Car_Control(void)
 
 1. 为什么循迹时左右轮速度不相等（差速转向）？有什么好处？
 2. 如果加第 3 个传感器在中间，循迹精度会提高吗？为什么？
-3. 为什么 `data2 * 10 + data3` 能代替二进制拼接？`data2 * 2 + data3` 行不行？
+3. 为什么 `s_l * 10 + s_r` 能代替二进制拼接？`s_l * 2 + s_r` 行不行？
 4. 循迹和避障组合时，为什么避障优先级要高于循迹？
+
+---
+
+## 本节小结
+
+- 红外循迹模块与避障模块硬件相同，只是安装方向不同（朝下检测地面）
+- 白色反射强 → 输出 0，黑色吸收光 → 输出 1（以实测为准）
+- 循迹核心：读传感器 → 拼接状态 → 差速纠偏，循环执行
+- 避障 + 循迹组合时，避障优先级更高（安全优先）
+
+---
+
+> **与上节的联系**：红外避障（第 10 课）和红外循迹（第 11 课）用的是同一种传感器，只是安装位置和检测目标不同。实际小车通常同时安装两种功能——下节我们将学习如何把避障和循迹结合起来。
