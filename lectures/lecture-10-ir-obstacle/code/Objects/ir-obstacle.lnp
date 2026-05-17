@@ -1,0 +1,6 @@
+".\Objects\delay.obj",
+".\Objects\motor.obj",
+".\Objects\timer.obj",
+".\Objects\main.obj" 
+TO ".\Objects\ir-obstacle" 
+PRINT(".\Listings\ir-obstacle.m51")
