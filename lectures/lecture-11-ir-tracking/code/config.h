@@ -12,12 +12,12 @@ sbit left_track  = P3^5;   // 左循迹传感器（本实验测得：白=0，黑
 sbit right_track = P3^4;   // 右循迹传感器（本实验测得：白=0，黑=1，以实测为准）
 
 // ===================== 电机驱动引脚 =====================
-sbit left_pwm   = P1^5;
+sbit Left_moto_pwm  = P1^5;
 sbit IN1            = P1^4;
 sbit IN2            = P1^3;
 sbit IN3            = P1^2;
 sbit IN4            = P1^1;
-sbit right_pwm  = P1^0;
+sbit Right_moto_pwm = P1^0;
 
 // ===================== 外设引脚 =====================
 sbit beep    = P2^2;   // 蜂鸣器

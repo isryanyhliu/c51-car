@@ -1,5 +1,7 @@
 #include "motor.h"
 
+extern unsigned char pwm_left, pwm_right;
+
 // 前进（示例代码，实际速度需根据场地调整）
 void forward(unsigned char LeftSpeed, unsigned char RightSpeed)
 {
