@@ -21,17 +21,17 @@ sbit Right_moto_pwm = P1^0;
 
 // ===================== 外设引脚 =====================
 sbit beep    = P2^2;   // 蜂鸣器
-sbit LED1    = P1^6;   // 无障指示灯
-sbit LED2    = P1^7;   // 障碍报警灯
+sbit led1    = P1^6;   // 无障指示灯
+sbit led2    = P1^7;   // 障碍报警灯
 
 // ===================== 电机控制宏定义 =====================
-#define left_motor_go      IN1=1; IN2=0
-#define left_motor_back    IN1=0; IN2=1
-#define left_motor_stops   IN1=0; IN2=0
+#define left_motor_go      IN1=1, IN2=0
+#define left_motor_back    IN1=0, IN2=1
+#define left_motor_stops   IN1=0, IN2=0
 
-#define right_motor_go     IN3=0; IN4=1
-#define right_motor_back   IN3=1; IN4=0
-#define right_motor_stops  IN3=0; IN4=0
+#define right_motor_go     IN3=0, IN4=1
+#define right_motor_back   IN3=1, IN4=0
+#define right_motor_stops  IN3=0, IN4=0
 
 // ===================== 定时器宏 =====================
 #define Timer1On       TR1=1

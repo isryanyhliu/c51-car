@@ -11,6 +11,12 @@ void Timer0_Init(void)
     TL0 = 164;       // 11.0592MHz，约100us中断
     TR0 = 1;
     ET0 = 1;         // 允许定时器0中断
+
+    // 初始化电机方向引脚为低电平（确保电机初始不转）
+    IN1 = 0; IN2 = 0;
+    IN3 = 0; IN4 = 0;
+    Left_moto_pwm  = 0;
+    Right_moto_pwm = 0;
 }
 
 /* 定时器0中断：生成 PWM（示例代码） */

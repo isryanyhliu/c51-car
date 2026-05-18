@@ -15,8 +15,8 @@ void main(void)
     EA_on;           // 开启总中断
 
     // 初始状态
-    LED1 = 0;
-    LED2 = 1;
+    led1 = 0;
+    led2 = 1;
     beep = 1;        // 蜂鸣器默认关闭
 
     // 2. 主循环
@@ -28,15 +28,15 @@ void main(void)
         // ===================== 核心逻辑 =====================
         if(dis > OBSTACLE_LIMIT)  // 无障碍物
         {
-            LED1 = 0;             // 亮LED1
-            LED2 = 1;             // 灭LED2
+            led1 = 0;             // 亮led1
+            led2 = 1;             // 灭led2
             beep = 1;             // 关闭蜂鸣器
             forward();            // 小车前进
         }
         else                     // 检测到障碍物
         {
-            LED1 = 1;             // 灭LED1
-            LED2 = 0;             // 亮LED2
+            led1 = 1;             // 灭led1
+            led2 = 0;             // 亮led2
             beep = 0;             // 蜂鸣器响
             stop();               // 原地停车
         }

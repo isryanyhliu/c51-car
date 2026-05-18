@@ -64,28 +64,30 @@
 把左右传感器的读数分开判断，根据状态决定动作：
 
 ```c
-// 读避障传感器（示例代码，实际需根据场地调整）
-char left_led  = left_ir;      // 左：0=有障，1=无障碍
-char right_led = right_ir;     // 右：0=有障，1=无障碍
+char left_flag  = left_ir;      // 左：0=有障，1=无障碍
+char right_flag = right_ir;     // 右：0=有障，1=无障碍
 
-// 根据状态决定动作（示例逻辑，实际需根据场地调整）
-if (right_led == 0 && left_led == 0) {
-    // 两侧都有障 -> 后退 + 转向
+if (right_flag == 0 && left_flag == 0) {
+    stop();
+    Delay_Ms(50);
     back_run(120, 120);
     Delay_Ms(300);
+    stop();
+    Delay_Ms(50);
     left_run(120, 120);
     Delay_Ms(200);
 }
-else if (right_led == 0) {
-    // 右侧有障 -> 向左转
+else if (right_flag == 0) {
+    stop();
+    Delay_Ms(30);
     left_run(120, 120);
 }
-else if (left_led == 0) {
-    // 左侧有障 -> 向右转
+else if (left_flag == 0) {
+    stop();
+    Delay_Ms(30);
     right_run(120, 120);
 }
 else {
-    // 两侧都无障碍 -> 前进
     forward(120, 120);
 }
 ```
@@ -126,7 +128,11 @@ else {
 // config.h（示例代码）
 sbit left_ir  = P3^6;   // 左避障传感器（本实验测得：无障碍=1，有障=0，以实测为准）
 sbit right_ir = P3^7;   // 右避障传感器（本实验测得：无障碍=1，有障=0，以实测为准）
+sbit KEY      = P3^3;   // 模式切换按键（按下=0，松开=1）
 ```
+
+> [!TIP]
+> **按键 KEY 的作用：** 按下后切换小车模式（避障模式 / 循迹模式），松开后恢复。实际使用时，短按一次 KEY 即可切换功能，方便演示两种模式。
 
 ### 第 2 步：读传感器
 
@@ -140,16 +146,24 @@ char right_led = right_ir;     // 右：0=有障，1=无障碍
 
 ```c
 // 避障逻辑（示例代码，实际需根据场地调整）
-if (right_led == 0 && left_led == 0) {      // 两侧都检测到障碍物
+if (right_flag == 0 && left_flag == 0) {      // 两侧都检测到障碍物
+    stop();
+    Delay_Ms(50);
     back_run(120, 120);
     Delay_Ms(300);
+    stop();
+    Delay_Ms(50);
     left_run(120, 120);
     Delay_Ms(200);
 }
-else if (right_led == 0) {              // 右侧检测到障碍物
+else if (right_flag == 0) {              // 右侧检测到障碍物
+    stop();
+    Delay_Ms(30);
     left_run(120, 120);         // 向左转避开
 }
-else if (left_led == 0) {              // 左侧检测到障碍物
+else if (left_flag == 0) {              // 左侧检测到障碍物
+    stop();
+    Delay_Ms(30);
     right_run(120, 120);        // 向右转避开
 }
 else {                            // 两侧都无障碍
@@ -178,28 +192,49 @@ else {                            // 两侧都无障碍
 void CarAvoid(void)
 {
     // 1. 读左右避障传感器（示例代码）
-    char left_led  = left_ir;      // 左：0=有障，1=无障碍
-    char right_led = right_ir;     // 右：0=有障，1=无障碍
+    char left_flag  = left_ir;      // 左：0=有障，1=无障碍
+    char right_flag = right_ir;     // 右：0=有障，1=无障碍
 
-    // 2. 根据状态决定动作（示例逻辑，实际需根据场地调整）
-    if (right_led == 0 && left_led == 0) {
+    // 2. 调试LED：检测到障碍时LED亮（低电平点亮）
+    debug_left_led  = left_flag;   // left_flag=0(有障) -> LED亮
+    debug_right_led = right_flag;  // right_flag=0(有障) -> LED亮
+
+    // 3. 根据状态决定动作（示例逻辑，实际需根据场地调整）
+    if (right_flag == 0 && left_flag == 0) {
         // 两侧都有障 -> 后退 + 转向
+        stop();
+        Delay_Ms(50);
         back_run(120, 120);
         Delay_Ms(300);
+        stop();
+        Delay_Ms(50);
         left_run(120, 120);
         Delay_Ms(200);
     }
-    else if (right_led == 0) {
-        left_run(120, 120);         // 右侧有障 -> 左转
+    else if (right_flag == 0) {
+        // 右侧有障 -> 左转
+        stop();
+        Delay_Ms(30);
+        left_run(120, 120);
     }
-    else if (left_led == 0) {
-        right_run(120, 120);        // 左侧有障 -> 右转
+    else if (left_flag == 0) {
+        // 左侧有障 -> 右转
+        stop();
+        Delay_Ms(30);
+        right_run(120, 120);
     }
     else {
-        forward(120, 120);          // 无障碍 -> 前进
+        // 两侧都无障碍 -> 前进
+        forward(120, 120);
     }
 }
 ```
+
+> [!TIP]
+> **调试 LED 说明：**
+> - `debug_left_led` 接 P1^7：左侧有障碍时 LED 亮（低电平点亮）
+> - `debug_right_led` 接 P1^6：右侧有障碍时 LED 亮（低电平点亮）
+> - 如果小车不动，检查这两个 LED 是否随障碍物变化：有障时亮，无障碍时灭
 
 ### 进阶版：双侧同时有障处理
 
@@ -207,10 +242,14 @@ void CarAvoid(void)
 
 ```c
 // 避障逻辑（示例代码，实际需根据场地调整）
-if (right_led == 0 && left_led == 0) {
+if (right_flag == 0 && left_flag == 0) {
     // 两侧都有障 -> 后退 + 转向
+    stop();
+    Delay_Ms(50);
     back_run(120, 120);
     Delay_Ms(300);
+    stop();
+    Delay_Ms(50);
     left_run(120, 120);
     Delay_Ms(200);
 }

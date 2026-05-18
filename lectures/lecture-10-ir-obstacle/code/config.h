@@ -21,9 +21,8 @@ sbit Right_moto_pwm = P1^0;
 
 // ===================== 外设引脚 =====================
 sbit beep           = P2^2;   // 蜂鸣器
-sbit debug_left_led = P1^6;   // 左避障调试LED：检测到障碍时亮
-sbit debug_right_led= P1^7;   // 右避障调试LED：检测到障碍时亮
-sbit KEY            = P3^3;   // 模式切换按键
+sbit debug_left_led = P1^7;   // 左避障调试LED：检测到障碍时亮（复用P1.7）
+sbit debug_right_led= P1^6;   // 右避障调试LED：检测到障碍时亮（复用P1.6）
 
 // ===================== 电机控制宏 =====================
 #define left_motor_go      IN1=1, IN2=0
@@ -37,7 +36,7 @@ sbit KEY            = P3^3;   // 模式切换按键
 // ===================== 定时器宏 =====================
 #define Timer1On       TR1=1
 #define Timer1Off      TR1=0
-#define EA_on          EA=1
+#define EA_on          EA = 1
 
 // ===================== PWM 参数 =====================
 #define PWM_DUTY        200
