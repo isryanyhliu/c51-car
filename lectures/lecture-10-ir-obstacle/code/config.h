@@ -20,10 +20,10 @@ sbit IN4            = P1^1;
 sbit Right_moto_pwm = P1^0;
 
 // ===================== 外设引脚 =====================
-sbit beep    = P2^2;   // 蜂鸣器
-sbit led1    = P1^6;   // 模式指示灯
-sbit led2    = P1^7;   // 状态指示灯
-sbit KEY     = P3^3;   // 模式切换按键
+sbit beep           = P2^2;   // 蜂鸣器
+sbit debug_left_led = P1^6;   // 左避障调试LED：检测到障碍时亮
+sbit debug_right_led= P1^7;   // 右避障调试LED：检测到障碍时亮
+sbit KEY            = P3^3;   // 模式切换按键
 
 // ===================== 电机控制宏 =====================
 #define left_motor_go      IN1=1, IN2=0
