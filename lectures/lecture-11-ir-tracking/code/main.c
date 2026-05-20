@@ -13,24 +13,26 @@ void car_track(void)
     unsigned char s_l, s_r, state;
 
     // 1. 读取传感器（示例代码，实际需根据场地调整）
-    s_l = left_track;       // 左：0=白线，1=黑线
-    s_r = right_track;      // 右：0=白线，1=黑线
+    s_l = otl;       // 左：0=白线，1=黑线
+    s_r = otr;       // 右：0=白线，1=黑线
 
-    // 2. 拼接状态（用十进制模拟二进制拼接）
-    state = s_l * 10 + s_r;
+    // 2. 拼接状态（二进制拼接：s_l*2 + s_r → 3/2/1/0）
+    state = s_l * 2 + s_r;
 
     // 3. 根据状态决定动作（示例逻辑，实际需根据场地调整）
-    if (state == 11) {       // 两传感器都在线（黑线）
-        forward(120, 120);   // 前进
-    }
-    else if (state == 10) {  // 左黑右白 -> 偏右，需要右转
-        right_run(80, 160);  // 右转纠偏
-    }
-    else if (state == 1) {   // 左白右黑 -> 偏左，需要左转
-        left_run(160, 80);   // 左转纠偏
-    }
-    else {                   // 两传感器都离线
-        stop();              // 停车
+    switch (state) {
+        case 3:  // 11：两传感器都在线（黑线）
+            forward(120, 120);   // 前进
+            break;
+        case 2:  // 10：左黑右白 -> 偏右，需要右转
+            right_run(80, 160);  // 右转纠偏
+            break;
+        case 1:  // 01：左白右黑 -> 偏左，需要左转
+            left_run(160, 80);   // 左转纠偏
+            break;
+        default: // 00：两传感器都离线
+            stop();              // 停车
+            break;
     }
 }
 
