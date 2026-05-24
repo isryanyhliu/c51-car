@@ -1,0 +1,67 @@
+# Keil μVision 工程配置
+*.uvopt
+*.uvoptx
+*.uvproj
+*.uvprojx
+*.uvgui*
+*.uvprj
+*.uvw
+
+# Keil 编译生成的文件
+*.hex
+*.OBJ
+*.LST
+*.M51
+*.lnk
+*.bak
+*.build_log.htm
+*.htm
+*.map
+*.crf
+*.dpl
+*.i
+*.j
+*.lib
+*.lst
+*.m51
+*.mod
+*.obj
+*.plg
+*.r51
+*.rst
+*.txf
+
+# Keil 输出目录
+Objects/
+Debug/
+Release/
+Listings/
+
+# 编辑器缓存
+.obsidian/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Windows
+Thumbs.db
+Thumbs.db?
+Desktop.ini
+ehthumbs.db
+*.DS_Store
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Node / npm
+node_modules/
+
+# 忽略根目录下的private文件夹
+private/
+.claude
+CLAUDE.md

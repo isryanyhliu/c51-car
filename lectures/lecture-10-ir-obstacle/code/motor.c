@@ -2,9 +2,17 @@
 
 extern unsigned char pwm_left, pwm_right;
 
+static void clamp_pwm(unsigned char *speed)
+{
+    if (*speed > PWM_HIGH_MAX) *speed = PWM_HIGH_MAX;
+    if (*speed < PWM_HIGH_MIN) *speed = PWM_HIGH_MIN;
+}
+
 // 前进（示例代码，实际速度需根据场地调整）
 void forward(unsigned char LeftSpeed, unsigned char RightSpeed)
 {
+    clamp_pwm(&LeftSpeed);
+    clamp_pwm(&RightSpeed);
     pwm_left = LeftSpeed;
     pwm_right = RightSpeed;
     left_motor_go;
@@ -14,6 +22,8 @@ void forward(unsigned char LeftSpeed, unsigned char RightSpeed)
 // 后退（示例代码，实际速度需根据场地调整）
 void back_run(unsigned char LeftSpeed, unsigned char RightSpeed)
 {
+    clamp_pwm(&LeftSpeed);
+    clamp_pwm(&RightSpeed);
     pwm_left = LeftSpeed;
     pwm_right = RightSpeed;
     left_motor_back;
@@ -23,6 +33,8 @@ void back_run(unsigned char LeftSpeed, unsigned char RightSpeed)
 // 左转（左轮退，右轮进）（示例代码，实际速度需根据场地调整）
 void left_run(unsigned char LeftSpeed, unsigned char RightSpeed)
 {
+    clamp_pwm(&LeftSpeed);
+    clamp_pwm(&RightSpeed);
     pwm_left = LeftSpeed;
     pwm_right = RightSpeed;
     left_motor_back;
@@ -32,6 +44,8 @@ void left_run(unsigned char LeftSpeed, unsigned char RightSpeed)
 // 右转（左轮进，右轮退）（示例代码，实际速度需根据场地调整）
 void right_run(unsigned char LeftSpeed, unsigned char RightSpeed)
 {
+    clamp_pwm(&LeftSpeed);
+    clamp_pwm(&RightSpeed);
     pwm_left = LeftSpeed;
     pwm_right = RightSpeed;
     left_motor_go;
