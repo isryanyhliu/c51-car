@@ -63,5 +63,5 @@ node_modules/
 
 # 忽略根目录下的private文件夹
 private/
-.claude
+.claude/
 CLAUDE.md
