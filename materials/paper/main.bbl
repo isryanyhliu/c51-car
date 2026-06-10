@@ -1,0 +1,274 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{tesla2024}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=3b42f51e0e8e26d91c6ca7f0dbb8dd63}{%
+           family={Inc.},
+           familyi={I\bibinitperiod},
+           given={Tesla},
+           giveni={T\bibinitperiod}}}%
+      }
+      \name{namea}{1}{}{%
+        {{hash=3b42f51e0e8e26d91c6ca7f0dbb8dd63}{%
+           family={Inc.},
+           familyi={I\bibinitperiod},
+           given={Tesla},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Tesla Inc.}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \list{publisher}{1}{%
+        {Tesla Inc.}%
+      }
+      \strng{namehash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{fullhash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{fullhashraw}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{bibnamehash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{authorbibnamehash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{authornamehash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{authorfullhash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{authorfullhashraw}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{nameabibnamehash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{nameanamehash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{nameafullhash}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \strng{nameafullhashraw}{3b42f51e0e8e26d91c6ca7f0dbb8dd63}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{languageid}{english}
+      \field{lansortorder}{4}
+      \field{title}{Tesla FSD V12: End-to-End Autonomous Driving Technical Overview}
+      \field{usera}{R}
+      \field{userd}{english}
+      \field{userf}{english}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \keyw{tesla2024}
+    \endentry
+    \entry{huawei2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=a51f620ad3a96aee4cf544199a78badb}{%
+           family={华为技术有限公司},
+           familyi={华\bibinitperiod}}}%
+      }
+      \name{namea}{1}{}{%
+        {{hash=a51f620ad3a96aee4cf544199a78badb}{%
+           family={华为技术有限公司},
+           familyi={华\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{fullhash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{fullhashraw}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{bibnamehash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{authorbibnamehash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{authornamehash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{authorfullhash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{authorfullhashraw}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{nameabibnamehash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{nameanamehash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{nameafullhash}{a51f620ad3a96aee4cf544199a78badb}
+      \strng{nameafullhashraw}{a51f620ad3a96aee4cf544199a78badb}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{华为技术报告}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{title}{华为ADS 3.0智能驾驶系统技术白皮书}
+      \field{usera}{J}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \keyw{huawei2024}
+    \endentry
+    \entry{zhang2021}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=615db57aa314529aaa0fbe95b3e95bd3}{%
+           family={张三},
+           familyi={张\bibinitperiod}}}%
+        {{hash=36c942351ec9cc3ad124e288a5c9cf0b}{%
+           family={李四},
+           familyi={李\bibinitperiod}}}%
+      }
+      \name{namea}{2}{}{%
+        {{hash=615db57aa314529aaa0fbe95b3e95bd3}{%
+           family={张三},
+           familyi={张\bibinitperiod}}}%
+        {{hash=36c942351ec9cc3ad124e288a5c9cf0b}{%
+           family={李四},
+           familyi={李\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{ae0ee24d722d0c51797dfe58db1ce7c2}
+      \strng{fullhash}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{fullhashraw}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{bibnamehash}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{authorbibnamehash}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{authornamehash}{ae0ee24d722d0c51797dfe58db1ce7c2}
+      \strng{authorfullhash}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{authorfullhashraw}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{nameabibnamehash}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{nameanamehash}{ae0ee24d722d0c51797dfe58db1ce7c2}
+      \strng{nameafullhash}{7b421930127f4bb35626d9da1aa0a73b}
+      \strng{nameafullhashraw}{7b421930127f4bb35626d9da1aa0a73b}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{电子技术应用}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{number}{3}
+      \field{title}{基于51单片机超声波避障小车的设计与实现}
+      \field{usera}{J}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{volume}{47}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{pages}{89\bibrangedash 93}
+      \range{pages}{5}
+      \keyw{zhang2021}
+    \endentry
+    \entry{li2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=b0c3ed747b190099522032fc0e361090}{%
+           family={李华},
+           familyi={李\bibinitperiod}}}%
+        {{hash=577865cfd98af5f05b64b3047251c8ca}{%
+           family={王强},
+           familyi={王\bibinitperiod}}}%
+      }
+      \name{namea}{2}{}{%
+        {{hash=b0c3ed747b190099522032fc0e361090}{%
+           family={李华},
+           familyi={李\bibinitperiod}}}%
+        {{hash=577865cfd98af5f05b64b3047251c8ca}{%
+           family={王强},
+           familyi={王\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{0811909a76cb6113237c223fa94031ac}
+      \strng{fullhash}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{fullhashraw}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{bibnamehash}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{authorbibnamehash}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{authornamehash}{0811909a76cb6113237c223fa94031ac}
+      \strng{authorfullhash}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{authorfullhashraw}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{nameabibnamehash}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{nameanamehash}{0811909a76cb6113237c223fa94031ac}
+      \strng{nameafullhash}{70bee3b24c5cf8e5540670afca466ddf}
+      \strng{nameafullhashraw}{70bee3b24c5cf8e5540670afca466ddf}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{单片机与嵌入式系统应用}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{number}{5}
+      \field{title}{基于Arduino的多传感器智能小车设计}
+      \field{usera}{J}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{volume}{22}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{pages}{45\bibrangedash 50}
+      \range{pages}{6}
+      \keyw{li2022}
+    \endentry
+    \entry{wang2023}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=5e808a38192f2dff42d3b8d05893635a}{%
+           family={王明},
+           familyi={王\bibinitperiod}}}%
+        {{hash=49c531db9a238c41eb438ff9999e83c3}{%
+           family={刘洋},
+           familyi={刘\bibinitperiod}}}%
+      }
+      \name{namea}{2}{}{%
+        {{hash=5e808a38192f2dff42d3b8d05893635a}{%
+           family={王明},
+           familyi={王\bibinitperiod}}}%
+        {{hash=49c531db9a238c41eb438ff9999e83c3}{%
+           family={刘洋},
+           familyi={刘\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{a425026bf22dcfb647465594de101f59}
+      \strng{fullhash}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{fullhashraw}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{bibnamehash}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{authorbibnamehash}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{authornamehash}{a425026bf22dcfb647465594de101f59}
+      \strng{authorfullhash}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{authorfullhashraw}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{nameabibnamehash}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{nameanamehash}{a425026bf22dcfb647465594de101f59}
+      \strng{nameafullhash}{d7be50796011abf531a596f1ea89ff7d}
+      \strng{nameafullhashraw}{d7be50796011abf531a596f1ea89ff7d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{传感器与微系统}
+      \field{langid}{english}
+      \field{languageid}{chinese}
+      \field{lansortorder}{1}
+      \field{number}{8}
+      \field{title}{基于STM32的循迹避障智能小车控制系统}
+      \field{usera}{J}
+      \field{userd}{chinese}
+      \field{userf}{chinese}
+      \field{volume}{42}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{pages}{112\bibrangedash 116}
+      \range{pages}{5}
+      \keyw{wang2023}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
