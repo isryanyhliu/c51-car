@@ -65,3 +65,7 @@ node_modules/
 private/
 .claude/
 CLAUDE.md
+materials/paper/main.aux
+materials/paper/main.blg
+materials/paper/main.log
+materials/paper/main.pdf
